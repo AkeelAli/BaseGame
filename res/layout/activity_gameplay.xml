@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:text="@string/from_field" />
+
+    <TextView
+        android:id="@+id/to_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="120dp"
+        android:layout_marginLeft="35dp"
+        android:text="TO 1" />
+
+    <TextView
+        android:id="@+id/to_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/to_one"
+        android:layout_alignBottom="@+id/to_one"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="47dp"
+        android:text="TO 2" />
+
+    <TextView
+        android:id="@+id/to_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/to_one"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="46dp"
+        android:text="TO 3" />
+
+    <TextView
+        android:id="@+id/to_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/to_three"
+        android:layout_alignBottom="@+id/to_three"
+        android:layout_alignLeft="@+id/to_two"
+        android:text="TO 4" />
+
+</RelativeLayout>

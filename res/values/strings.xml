@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Base Game</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="new_game">New Game</string>
+    <string name="title_activity_gameplay">Gameplay</string>
+    <string name="from_field">FROM</string>
+
+</resources>
