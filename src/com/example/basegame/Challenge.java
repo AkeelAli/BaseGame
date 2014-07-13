@@ -34,4 +34,12 @@ public class Challenge {
 		return answer.equals(mCorrectNumber);
 	}
 	
+	public Number getCorrectNumber() {
+		return mCorrectNumber;
+	}
+	
+	public Number[] getWrongNumbers() {
+		return mWrongNumbers;
+	}
+	
 }
