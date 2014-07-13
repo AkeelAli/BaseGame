@@ -4,50 +4,74 @@
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp"
-        android:text="@string/from_field" />
-
-    <TextView
-        android:id="@+id/to_one"
+    <Button
+        android:id="@+id/choice_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="120dp"
-        android:layout_marginLeft="35dp"
-        android:text="TO 1" />
+        android:layout_marginBottom="98dp"
+        android:layout_marginLeft="21dp"
+        android:layout_toLeftOf="@+id/from_field"
+        android:text="Choice 1" />
 
-    <TextView
-        android:id="@+id/to_two"
+    <Button
+        android:id="@+id/choice_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/to_one"
-        android:layout_alignBottom="@+id/to_one"
+        android:layout_alignBaseline="@+id/choice_1"
+        android:layout_alignBottom="@+id/choice_1"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="47dp"
-        android:text="TO 2" />
+        android:layout_marginRight="21dp"
+        android:layout_toRightOf="@+id/from_field"
+        android:text="Choice 2" />
 
-    <TextView
-        android:id="@+id/to_three"
+    <Button
+        android:id="@+id/choice_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/to_one"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="46dp"
-        android:text="TO 3" />
+        android:layout_alignLeft="@+id/choice_1"
+        android:layout_alignRight="@+id/choice_1"
+        android:layout_below="@+id/choice_2"
+        android:layout_marginTop="25dp"
+        android:text="Choice 3" />
 
-    <TextView
-        android:id="@+id/to_four"
+    <Button
+        android:id="@+id/choice_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/to_three"
-        android:layout_alignBottom="@+id/to_three"
-        android:layout_alignLeft="@+id/to_two"
-        android:text="TO 4" />
+        android:layout_alignBaseline="@+id/choice_3"
+        android:layout_alignBottom="@+id/choice_3"
+        android:layout_alignLeft="@+id/choice_2"
+        android:layout_alignRight="@+id/choice_2"
+        android:text="Choice 4" />
+
+    <TextView
+        android:id="@+id/from_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="102dp"
+        android:text="FROM" />
+
+    <TextView
+        android:id="@+id/score_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/score_text"
+        android:layout_alignBottom="@+id/score_text"
+        android:layout_toRightOf="@+id/score_text"
+        android:layout_marginLeft="10dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/choice_2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:text="SCORE:" />
 
 </RelativeLayout>
