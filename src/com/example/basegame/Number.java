@@ -9,6 +9,13 @@ public class Number {
 	
 	private int mNumber;
 	
+	public enum Base {
+		HEXADECIMAL,
+		DECIMAL,
+		BINARY,
+		OCTAL,
+	}
+	
 	public Number(int number) {
 		/* TODO add restriction for +ve integer */
 		mNumber = number;
@@ -46,7 +53,39 @@ public class Number {
 		return mNumber;
 	}
 	
-	public boolean equals(Number num) {
-		return (num.getValue() == this.getValue());
+	@Override
+	public boolean equals(Object num) {
+		if (num instanceof Number)
+			return (((Number)num).getValue() == this.getValue());
+		else
+			return false;
+	}
+	
+	public String display(Base base) {
+		String display;
+		
+		switch (base) {
+		case DECIMAL:
+			display = String.valueOf(mNumber);
+			break;
+		
+		case HEXADECIMAL:
+			display = String.format("0x%X", mNumber);
+			break;
+			
+		case BINARY:
+			display = (String.format("%4s", Integer.toBinaryString(mNumber)).replace(' ', '0'));
+			break;
+			
+		case OCTAL:
+			display = String.format("0o%3o", mNumber);
+			break;
+			
+		default:
+			display= "err";
+			break;
+		}
+		
+		return display;
 	}
 }
