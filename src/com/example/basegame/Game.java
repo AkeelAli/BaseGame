@@ -62,7 +62,7 @@ public class Game implements Iterable<Challenge> {
 	public class ChallengeIterator implements Iterator<Challenge> {
 		@Override
 		public boolean hasNext() {
-			return (mCurrentChallengeIdx < (mNumChallenges - 1));
+			return (mCurrentChallengeIdx < mNumChallenges);
 		}
 
 		@Override

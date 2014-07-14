@@ -50,22 +50,33 @@ public class Gameplay extends Activity {
 	private void playGame(Game game) {
 		mChallengeIter = (ChallengeIterator) game.iterator();
 		
+		redraw();
+	}
+	
+	private void redraw() {
+		drawScore();
+		
 		if (mChallengeIter.hasNext()) {
-			setupChallenge(mChallengeIter.next());
+			drawChallenge(mChallengeIter.next());
 		} else {
-			/* Shouldn't get here: Game has no challenges */
+			Log.i("GAMEPLAY", "Done");
+			mFromField.setVisibility(TextView.INVISIBLE);
+			for (int i = 0; i < Challenge.CHOICES_PER_CHALLENGE; i++)
+				mChoiceButtons[i].setVisibility(Button.INVISIBLE);
 		}
 	}
 	
-	private void setupChallenge(Challenge challenge) {
+	private void drawScore() {
+		mScore.setText(String.valueOf(mGame.getGameScore()));
+	}
+	
+	private void drawChallenge(Challenge challenge) {
 		Random rand = new Random();
 		int correctChoiceButtonIndex = rand.nextInt(Challenge.CHOICES_PER_CHALLENGE);
 		Number num;
 		/* TODO adjust these based on Game Mode */
 		Number.Base fromBase = Number.Base.HEXADECIMAL;
 		Number.Base toBase = Number.Base.BINARY;
-		
-		mScore.setText(String.valueOf(mGame.getGameScore()));
 		
 		num = challenge.getCorrectNumber();
 		mFromField.setText(num.display(fromBase));
@@ -106,15 +117,8 @@ public class Gameplay extends Activity {
 				Log.i("GAMEPLAY", buttonText + " is incorrect");
 			}
 			
-			if (mChallengeIter.hasNext()) {
-				setupChallenge(mChallengeIter.next());
-			} else {
-				Log.i("GAMEPLAY", "Done");
-				mFromField.setVisibility(TextView.INVISIBLE);
-				for (int i = 0; i < Challenge.CHOICES_PER_CHALLENGE; i++)
-					mChoiceButtons[i].setVisibility(Button.INVISIBLE);
-			}
-		
+			redraw();
+			
 		}
 	}
 }
