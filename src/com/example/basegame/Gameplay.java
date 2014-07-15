@@ -21,10 +21,13 @@ public class Gameplay extends Activity {
 
 	private Game mGame;
 	private Game.ChallengeIterator mChallengeIter;
+	private Game.GameMode mGameMode;
 	
 	private TextView mFromField;
 	private Button mChoiceButtons[];
 	private TextView mScore;
+	
+	private final static int NUM_CHALLENGES_PER_GAME = 8;
 	
 	
 	@Override
@@ -32,17 +35,25 @@ public class Gameplay extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gameplay);
 		
+		/* Determine GameMode */
+		Bundle extras = getIntent().getExtras();
+		if (extras == null) {
+			/* Assume default game mode = mixed */
+			mGameMode = Game.GameMode.MIXED;
+		} else {
+			String gameModeStr = extras.getString("GameMode");
+			mGameMode = Game.GameMode.valueOf(gameModeStr);
+		}
+		
 		mFromField = (TextView) findViewById(R.id.from_field);
-		/* TODO remove dependency on challenge here? */
 		mChoiceButtons = new Button[Challenge.CHOICES_PER_CHALLENGE];
 		mChoiceButtons[0] = (Button) findViewById(R.id.choice_1);
 		mChoiceButtons[1] = (Button) findViewById(R.id.choice_2);
 		mChoiceButtons[2] = (Button) findViewById(R.id.choice_3);
 		mChoiceButtons[3] = (Button) findViewById(R.id.choice_4);
-		
 		mScore = (TextView) findViewById(R.id.score_field);
 		
-		mGame = new Game(5, Game.GameMode.BINARY_DECIMAL);
+		mGame = new Game(NUM_CHALLENGES_PER_GAME, mGameMode);
 		
 		playGame(mGame);
 	}

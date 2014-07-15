@@ -6,5 +6,6 @@
     <string name="new_game">New Game</string>
     <string name="title_activity_gameplay">Gameplay</string>
     <string name="from_field">FROM</string>
+    <string name="title_activity_game_options">GameOptionsActivity</string>
 
 </resources>
