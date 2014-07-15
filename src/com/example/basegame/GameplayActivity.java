@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Gameplay extends Activity {
+public class GameplayActivity extends Activity {
 
 	private Game mGame;
 	private Game.ChallengeIterator mChallengeIter;

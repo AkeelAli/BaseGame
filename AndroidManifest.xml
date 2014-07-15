@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.basegame.Gameplay"
+            android:name="com.example.basegame.GameplayActivity"
             android:label="@string/title_activity_gameplay" >
         </activity>
         <activity

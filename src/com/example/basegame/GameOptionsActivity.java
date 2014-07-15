@@ -54,7 +54,7 @@ public class GameOptionsActivity extends Activity {
 			}
 			
 			
-			Intent intent = new Intent(GameOptionsActivity.this, Gameplay.class);
+			Intent intent = new Intent(GameOptionsActivity.this, GameplayActivity.class);
 			intent.putExtra("GameMode", extraData);
 			startActivity(intent);
 			
