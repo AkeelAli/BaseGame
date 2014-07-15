@@ -1,5 +1,6 @@
 package com.example.basegame;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -41,7 +42,6 @@ public class Gameplay extends Activity {
 		
 		mScore = (TextView) findViewById(R.id.score_field);
 		
-		/* TODO this is not yielding the right number of challenges + make this a CONSTANT */
 		mGame = new Game(5, Game.GameMode.BINARY_DECIMAL);
 		
 		playGame(mGame);
@@ -74,14 +74,14 @@ public class Gameplay extends Activity {
 		Random rand = new Random();
 		int correctChoiceButtonIndex = rand.nextInt(Challenge.CHOICES_PER_CHALLENGE);
 		Number num;
-		/* TODO adjust these based on Game Mode */
-		Number.Base fromBase = Number.Base.HEXADECIMAL;
-		Number.Base toBase = Number.Base.BINARY;
+		Number.Base fromToBases[] = new Number.Base[2];
+		
+		getBases(mGame.getGameMode(), fromToBases);
 		
 		num = challenge.getCorrectNumber();
-		mFromField.setText(num.display(fromBase));
+		mFromField.setText(num.display(fromToBases[0]));
 		
-		mChoiceButtons[correctChoiceButtonIndex].setText(num.display(toBase));
+		mChoiceButtons[correctChoiceButtonIndex].setText(num.display(fromToBases[1]));
 		mChoiceButtons[correctChoiceButtonIndex].setTag(num);
 		mChoiceButtons[correctChoiceButtonIndex].setOnClickListener(new ChoiceClickListener());
 		
@@ -91,13 +91,44 @@ public class Gameplay extends Activity {
 				continue;
 			
 			num = challenge.getWrongNumbers()[i];
-			mChoiceButtons[wrongChoiceButtonIndex].setText(num.display(toBase));
+			mChoiceButtons[wrongChoiceButtonIndex].setText(num.display(fromToBases[1]));
 			mChoiceButtons[wrongChoiceButtonIndex].setTag(num);
 			mChoiceButtons[wrongChoiceButtonIndex].setOnClickListener(new ChoiceClickListener());
 			i++;
 		}
+	
+	}
+	
+	private void getBases(Game.GameMode gameMode, Number.Base fromToBases[]) {
+		ArrayList<Number.Base> possibleBases = new ArrayList<Number.Base>();
+		Random rand = new Random();
 		
-
+		switch(gameMode) {
+		case BINARY_DECIMAL:
+			possibleBases.add(Number.Base.BINARY);
+			possibleBases.add(Number.Base.DECIMAL);
+			break;
+			
+		case HEX_DECIMAL:
+			possibleBases.add(Number.Base.HEXADECIMAL);
+			possibleBases.add(Number.Base.DECIMAL);
+			break;
+			
+		case BINARY_HEX:
+			possibleBases.add(Number.Base.BINARY);
+			possibleBases.add(Number.Base.HEXADECIMAL);	
+			break;
+			
+		case MIXED:
+		default:
+			possibleBases.add(Number.Base.BINARY);
+			possibleBases.add(Number.Base.HEXADECIMAL);
+			possibleBases.add(Number.Base.DECIMAL);
+			break;
+		}
+		
+		fromToBases[0] = possibleBases.remove(rand.nextInt(possibleBases.size()));
+		fromToBases[1] = possibleBases.remove(rand.nextInt(possibleBases.size()));
 	}
 	
 	public class ChoiceClickListener implements OnClickListener {
