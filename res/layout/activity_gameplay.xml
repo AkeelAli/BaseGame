@@ -53,6 +53,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="102dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="FROM" />
 
     <TextView
@@ -63,6 +64,7 @@
         android:layout_alignBottom="@+id/score_text"
         android:layout_toRightOf="@+id/score_text"
         android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0" />
 
     <TextView
@@ -72,6 +74,7 @@
         android:layout_alignLeft="@+id/choice_2"
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="SCORE:" />
 
 </RelativeLayout>

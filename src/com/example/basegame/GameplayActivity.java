@@ -8,7 +8,10 @@ import com.example.basegame.Game.ChallengeIterator;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +30,13 @@ public class GameplayActivity extends Activity {
 	private Button mChoiceButtons[];
 	private TextView mScore;
 	
+	/* CONSTANTS */
+	/* TODO define and use xml colors with default gray color for buttons instead of reseting every challenge */
+	private final static int BUTTON_COLOR = Color.GRAY;
+	private final static int BUTTON_CORRECT_COLOR = Color.GREEN;
+	private final static int BUTTON_INCORRECT_COLOR = Color.RED;
 	private final static int NUM_CHALLENGES_PER_GAME = 8;
+	
 	
 	
 	@Override
@@ -92,6 +101,7 @@ public class GameplayActivity extends Activity {
 		num = challenge.getCorrectNumber();
 		mFromField.setText(num.display(fromToBases[0]));
 		
+		mChoiceButtons[correctChoiceButtonIndex].setBackgroundColor(BUTTON_COLOR);
 		mChoiceButtons[correctChoiceButtonIndex].setText(num.display(fromToBases[1]));
 		mChoiceButtons[correctChoiceButtonIndex].setTag(num);
 		mChoiceButtons[correctChoiceButtonIndex].setOnClickListener(new ChoiceClickListener());
@@ -102,6 +112,8 @@ public class GameplayActivity extends Activity {
 				continue;
 			
 			num = challenge.getWrongNumbers()[i];
+
+			mChoiceButtons[wrongChoiceButtonIndex].setBackgroundColor(BUTTON_COLOR);
 			mChoiceButtons[wrongChoiceButtonIndex].setText(num.display(fromToBases[1]));
 			mChoiceButtons[wrongChoiceButtonIndex].setTag(num);
 			mChoiceButtons[wrongChoiceButtonIndex].setOnClickListener(new ChoiceClickListener());
@@ -147,19 +159,26 @@ public class GameplayActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			
-			Button buttonClicked = (Button) v;
-			String buttonText = buttonClicked.getText().toString();
+			final Button buttonClicked = (Button) v;
 			Number numClicked = (Number) buttonClicked.getTag();
-			
 			Challenge currentChallenge = mChallengeIter.current();
-			if (currentChallenge.isCorrectAnswer(numClicked)) {
-				Log.i("GAMEPLAY", buttonText + " is correct");
+			boolean correct = currentChallenge.isCorrectAnswer(numClicked);
+			
+			if (correct) {
+				buttonClicked.setBackgroundColor(BUTTON_CORRECT_COLOR);
 				mGame.setGameScore(mGame.getGameScore() + 1);
 			} else {
-				Log.i("GAMEPLAY", buttonText + " is incorrect");
+				buttonClicked.setBackgroundColor(BUTTON_INCORRECT_COLOR);
 			}
 			
-			redraw();
+		    // Sleep for a moment to hold the button color, then move to next challenge
+		    Handler handler = new Handler(); 
+		    handler.postDelayed(new Runnable() { 
+		         public void run() { 
+		        	 buttonClicked.setBackgroundColor(BUTTON_COLOR);
+		        	 redraw();
+		         } 
+		    }, 200 /* Sleep 0.2 seconds */);
 			
 		}
 	}
