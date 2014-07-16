@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
@@ -25,16 +26,20 @@ public class GameplayActivity extends Activity {
 	private Game mGame;
 	private Game.ChallengeIterator mChallengeIter;
 	private Game.GameMode mGameMode;
+	private CountDownTimer mTimer;
 	
 	private TextView mFromField;
 	private Button mChoiceButtons[];
 	private TextView mScore;
+	private TextView mTime;
+	private TextView mChallenge;
 	
 	/* CONSTANTS */
 	/* TODO define and use xml colors with default gray color for buttons instead of reseting every challenge */
 	private final static int BUTTON_COLOR = Color.GRAY;
 	private final static int BUTTON_CORRECT_COLOR = Color.GREEN;
 	private final static int BUTTON_INCORRECT_COLOR = Color.RED;
+	
 	private final static int NUM_CHALLENGES_PER_GAME = 8;
 	
 	
@@ -60,7 +65,9 @@ public class GameplayActivity extends Activity {
 		mChoiceButtons[1] = (Button) findViewById(R.id.choice_2);
 		mChoiceButtons[2] = (Button) findViewById(R.id.choice_3);
 		mChoiceButtons[3] = (Button) findViewById(R.id.choice_4);
+		mChallenge = (TextView) findViewById(R.id.challenge_field);
 		mScore = (TextView) findViewById(R.id.score_field);
+		mTime = (TextView) findViewById(R.id.time_field);
 		
 		mGame = new Game(NUM_CHALLENGES_PER_GAME, mGameMode);
 		
@@ -71,7 +78,27 @@ public class GameplayActivity extends Activity {
 		mChallengeIter = (ChallengeIterator) game.iterator();
 		
 		redraw();
+		
+		startTimer();
 	}
+	
+	private void startTimer() {
+		mTimer = new CountDownTimer(Game.TIMER_TOTAL_TIME_MS, Game.TIMER_INTERVAL_BETWEEN_TICKS_MS) {
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+				setAndDrawTimeBonus(millisUntilFinished);
+			}
+
+			@Override
+			public void onFinish() {
+				setAndDrawTimeBonus(0);
+				gameDone(true);
+			}
+			
+		}.start();
+	}
+
 	
 	private void redraw() {
 		drawScore();
@@ -79,11 +106,26 @@ public class GameplayActivity extends Activity {
 		if (mChallengeIter.hasNext()) {
 			drawChallenge(mChallengeIter.next());
 		} else {
-			Log.i("GAMEPLAY", "Done");
-			mFromField.setVisibility(TextView.INVISIBLE);
-			for (int i = 0; i < Challenge.CHOICES_PER_CHALLENGE; i++)
-				mChoiceButtons[i].setVisibility(Button.INVISIBLE);
+			gameDone(false);
 		}
+	}
+	
+	private void gameDone(boolean timesUp) {
+		mTimer.cancel();
+		
+		if (timesUp)
+			Log.i("GAMEPLAY", "Time's up! Game Over!");
+		else
+			Log.i("GAMEPLAY", "Game Done Successfully!");
+		
+		mFromField.setVisibility(TextView.INVISIBLE);
+		for (int i = 0; i < Challenge.CHOICES_PER_CHALLENGE; i++)
+			mChoiceButtons[i].setVisibility(Button.INVISIBLE);
+	}
+	
+	private void setAndDrawTimeBonus(long timeBonus) {
+		mGame.setTimeBonus(timeBonus);
+		mTime.setText(String.valueOf(mGame.getTimeBonus()));
 	}
 	
 	private void drawScore() {
@@ -96,23 +138,30 @@ public class GameplayActivity extends Activity {
 		Number num;
 		Number.Base fromToBases[] = new Number.Base[2];
 		
+		/* Get Bases for this challenge (from base and to base) */
 		getBases(mGame.getGameMode(), fromToBases);
 		
+		/* Setup Challenge number */
+		mChallenge.setText(mChallengeIter.nextIndex() + "/" + mGame.getNumChallenges());
+		
+		/* Setup From Field */
 		num = challenge.getCorrectNumber();
 		mFromField.setText(num.display(fromToBases[0]));
 		
+		/* Setup Correct Choice Button */
 		mChoiceButtons[correctChoiceButtonIndex].setBackgroundColor(BUTTON_COLOR);
 		mChoiceButtons[correctChoiceButtonIndex].setText(num.display(fromToBases[1]));
 		mChoiceButtons[correctChoiceButtonIndex].setTag(num);
 		mChoiceButtons[correctChoiceButtonIndex].setOnClickListener(new ChoiceClickListener());
 		
+		/* Setup Wrong Choice Buttons */
 		int i = 0;
 		for (int wrongChoiceButtonIndex = 0; wrongChoiceButtonIndex < Challenge.CHOICES_PER_CHALLENGE; ++wrongChoiceButtonIndex) {
 			if (wrongChoiceButtonIndex == correctChoiceButtonIndex)
 				continue;
 			
 			num = challenge.getWrongNumbers()[i];
-
+			
 			mChoiceButtons[wrongChoiceButtonIndex].setBackgroundColor(BUTTON_COLOR);
 			mChoiceButtons[wrongChoiceButtonIndex].setText(num.display(fromToBases[1]));
 			mChoiceButtons[wrongChoiceButtonIndex].setTag(num);
@@ -166,7 +215,7 @@ public class GameplayActivity extends Activity {
 			
 			if (correct) {
 				buttonClicked.setBackgroundColor(BUTTON_CORRECT_COLOR);
-				mGame.setGameScore(mGame.getGameScore() + 1);
+				mGame.addPoint();
 			} else {
 				buttonClicked.setBackgroundColor(BUTTON_INCORRECT_COLOR);
 			}

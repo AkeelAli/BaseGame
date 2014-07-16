@@ -47,34 +47,43 @@
         android:text="Choice 4" />
 
     <TextView
+        android:id="@+id/challenge_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/choice_1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:text="1/8"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
         android:id="@+id/from_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/score_field"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="102dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="FROM" />
+        android:layout_marginTop="96dp"
+        android:text="FROM"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/score_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/score_text"
-        android:layout_alignBottom="@+id/score_text"
-        android:layout_toRightOf="@+id/score_text"
-        android:layout_marginLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="0" />
+        android:layout_alignBaseline="@+id/challenge_field"
+        android:layout_alignBottom="@+id/challenge_field"
+        android:layout_alignRight="@+id/choice_2"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/score_text"
+        android:id="@+id/time_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/choice_2"
-        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/score_field"
+        android:layout_below="@+id/score_field"
         android:layout_marginTop="14dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="SCORE:" />
+        android:text="12000"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

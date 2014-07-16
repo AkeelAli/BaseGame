@@ -3,6 +3,8 @@ package com.example.basegame;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.os.CountDownTimer;
+
 
 
 public class Game implements Iterable<Challenge> {
@@ -11,6 +13,12 @@ public class Game implements Iterable<Challenge> {
 	private GameMode mMode;	
 	private int mCurrentChallengeIdx;
 	private int mScore;
+	private long mTimeBonus;
+	
+	/* CONSTANTS */
+	public final static int TIMER_INTERVAL_BETWEEN_TICKS_MS = 100;
+	public final static int TIMER_TOTAL_TIME_MS = 40000;
+	public final static long INITIAL_TIME_BONUS = TIMER_TOTAL_TIME_MS;
 	
 	public enum GameMode {
 		BINARY_DECIMAL,
@@ -26,6 +34,7 @@ public class Game implements Iterable<Challenge> {
 		mMode = mode;
 		mCurrentChallengeIdx = 0;
 		mScore = 0;
+		mTimeBonus = INITIAL_TIME_BONUS;
 	}
 	
 	/* Generate random Game */
@@ -40,20 +49,33 @@ public class Game implements Iterable<Challenge> {
 		
 		mCurrentChallengeIdx = 0;
 		mScore = 0;
+		mTimeBonus = INITIAL_TIME_BONUS;
+	}
+	
+	public void setTimeBonus(long timeBonus) {
+		mTimeBonus = timeBonus;
+	}
+	
+	public long getTimeBonus() {
+		return mTimeBonus;
+	}
+	
+	public void addPoint() {
+		mScore += 1;
 	}
 	
 	public int getGameScore() {
 		return mScore;
 	}
-	
-	public void setGameScore(int score) {
-		mScore = score;
-	}
-		
+
 	public GameMode getGameMode() {
 		return mMode;
 	}
-
+	
+	public int getNumChallenges() {
+		return mNumChallenges;
+	}
+	
 	@Override
 	public Iterator<Challenge> iterator() {
 		return new ChallengeIterator();
@@ -77,6 +99,10 @@ public class Game implements Iterable<Challenge> {
 		
 		public Challenge current() {
 			return (mChallenges.get(mCurrentChallengeIdx - 1));
+		}
+		
+		public int nextIndex() {
+			return (mCurrentChallengeIdx);
 		}
 	}
 }
